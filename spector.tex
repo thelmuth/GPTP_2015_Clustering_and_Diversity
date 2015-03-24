@@ -25,23 +25,58 @@ keywords to your chapter, these words should also be indexed
 
 
 
-\section{Introduction}
-\label{sec:1}
+\section{Introduction} \label{intro}
 
-Lexicase citation \citep{Helmuth:2015:ieeeTEC}.
+
+
+Outline for intro:
+
+\begin{itemize}
+\item parent selection, including lexicase, tourney, and IFS
+
+\item Measures of population structure, including diversity and clustering
+
+\item Source of problems (software benchmarks)
+
+\end{itemize}
 
 
 \section{Lexicase}
 (include description, brief account of prior work, and important properties)
 
-\section{Explanation of methods used for diversity and clustering plots}
 
-- Error diversity (not quite the same as behavioral diversity, but very similar)
 
-- Cluster counts based on agglomerative clustering and number of clusters at least 10\% of test cases "apart" after making errors binary using elitness
+\section{Explorations of Population Dynamics}
+
+- why do we want to explore these things
+
+\subsection{Error Diversity}
+
+
+
+\textit{Error diversity} measures the semantic diversity of a population as the percent of distinct error vectors in the population. When evaluating a program, it is tested on a set of test cases composed of input/output pairs. Then, one or more error functions are applied to the desired output and the programs output, creating an error vector for each individual.
+
+Error diversity is very similar to \textit{behavioral diversity}, which calculates the percent of distinct behavior vectors in the population \citep{Jackson:2010:PPSN}. Here, the behavior of a program is the vector of outputs a program produces when run on the vector of inputs. Error diversity for a population will be less than or equal to its behavioral diversity, since two different behavior vectors may produce the same error vector, but two different error vectors must come from different behavior vectors.
+
+Helmuth et al. showed that in sets of runs where lexicase achieved higher success rates, it also maintained higher population diversity \cite{Helmuth:2015:ieeeTEC}. Here, we would like to explore whether similar effects are seen in error diversity across other problems.
+
+
+\subsection{Population Clustering}
+
+One hypothesis we have developed as to why lexicase selection has led to improved performance compared to tournament selection and IFS is that it enables a population to develop niches of individuals in the population that evolve side-by-side, similar to more explicit niching methods such as island models. These niches would specialize in solving specific subsets of the training set. We expect that evolution may sometimes progress when individuals from separate niches mate, creating children that combine the abilities of each parent and creating a larger niche that combines the parents' niches. If crossover continues combining niches throughout evolution, we hope that eventually an individual will be created that combines the requirements of all of the training cases, solving the problem.
+
+We would like to explore the effects of different parent selection methods on the development of niches within a population. We expect that using lexicase selection will result in larger numbers of clusters than tournament selection or IFS.
+
+To explore the idea of niches within a single population, we must be able to measure the niching of a population with respect to the training cases. We can use a clustering algorithm to find the number of clusters exist in a population, plotting a measurement of the clustering at each generation.
+
+We would like to cluster individuals based on their error vectors across the training cases. Since we are primarily interested on whether an individual performs at least as well as every other individual in the population, we reduce the error vectors into binary vectors that indicate whether an individual achieved the best error on each test case in that generation. This allows us to ignore the differences between individuals that perform poorly on cases in different ways, and concentrate on how individuals cluster based on cases on which they perform highly.
+
+We count clusters in a population by using agglomerative clustering. Agglomerative clustering creates a hierarchical clustering model by first placing each individual into its own cluster. It then iteratively combines the two closest clusters into a single cluster, until all clusters have been combined into a single cluster. We can determine the distance between two clusters when they were combined into a larger cluster. Using this information, we can calculate the number of clusters for any particular distance between clusters. Since we are using binary error vectors, we can use the Manhattan distance between any two error vectors to determine the number of training cases on which two individuals have different ``eliteness'' results\footnote{We used the R implementation of agglomerative clustering texttt{agnes} using the average linkage when combining clusters.} We chose to find the number of clusters that differed on at least 10\% of the training cases; for example, if a problem has 200 training cases, we found the number of clusters that differed in binary elitness on at least 20 training cases. While this distance is somewhat arbitrary, it gives a good estimation of how many groups of individuals are doing significantly different things in the population.
 
 
 \section{Plots and descriptions of plots}
+
+[somewhere, we should say how many cases there are for each problem, and since we look at clusters at 10\% of the cases, what that height is. For most problems there were 200 cases, but a few had 100]
 
 
 \begin{figure}%[t] %[t] sets the image at the top of the page; t = top, b = bottom, h = here%
