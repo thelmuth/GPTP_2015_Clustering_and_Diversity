@@ -46,26 +46,7 @@ Outline for intro:
 
 \section{Lexicase}
 
-%\begin{figure}[!t]
-%	\centering
-%	\fbox{\parbox{8.2cm}{To select a parent for use in a genetic operation:
-%			\begin{enumerate}
-%				\item {\ttfamily Initialize}:
-%				\begin{enumerate}
-%					\item Set {\ttfamily candidates} to be the entire population.
-%					\item Set {\ttfamily cases} to be a list of all of the test cases in random order.
-%				\end{enumerate}
-%				\item {\ttfamily Loop}:
-%				\begin{enumerate}
-%					\item Set {\ttfamily candidates} to be the subset of the current {\ttfamily candidates} that have exactly the best performance of any individual currently in {\ttfamily candidates} for the first case in {\ttfamily cases}.
-%					\item If {\ttfamily candidates} contains just a single individual then return it.
-%					\item If {\ttfamily cases} contains just a single test case then return a randomly selected individual from {\ttfamily candidates}.
-%					\item Otherwise remove the first case from {\ttfamily cases} and go to {\ttfamily Loop}.
-%				\end{enumerate}
-%			\end{enumerate}
-%		}}
-%		\caption{\label{lexicase}Pseudocode for the lexicase selection algorithm.}
-%	\end{figure}
+\marginpar{(include description, brief account of prior work, and important properties)}
 	
 Pseudocode for the lexicase selection algorithm is outlined in pseudocode in 
 Algorithm~\ref{alg:lexicase}. In each parent selection event, the lexicase selection algorithm 
@@ -94,8 +75,13 @@ have been used, in which case it randomly selects one of the remaining individua
 	\label{alg:lexicase}
 \end{algorithm}
 
-(include description, brief account of prior work, and important properties)
-
+The central properties of lexicase selection are that (a) it doesn't combine all the errors into a single
+fitness value and (b) because of the random ordering of test cases, every test case is likely to be
+most important (first to be considered) at least occasionally. With a population of 1,000 individuals
+and a problem with 200 test cases, for example, we would expect each test case to be first several
+times in each generation. The hope, then, is that this ensures some diversity in the population, with
+different (groups of) individuals being rewarded for their ability to perform well on different test
+cases.
 
 
 \section{Explorations of Population Dynamics}
