@@ -86,18 +86,24 @@ cases.
 
 \section{Explorations of Population Dynamics}
 
-- why do we want to explore these things
+\marginpar{why do we want to explore these things}
+
+The key goal of this paper is to try to better understand why lexicase outperforms tournament selection
+and IFS on a variety of problems. One hypothesis is that lexicase helps maintain population diversity
+by randomizing the priority of test cases at each selection event, ensuring for example that each test 
+case is the most important several times each generation. Here we test this hypothesis by measuring 
+diversity in two different ways, error diversity and population clustering, and compare the results 
+for lexicase, tournament selection, and IFS.
 
 \subsection{Error Diversity}
-
-
 
 \textit{Error diversity} measures the semantic diversity of a population as the percent of distinct error vectors in the population. When evaluating a program, it is tested on a set of test cases composed of input/output pairs. Then, one or more error functions are applied to the desired output and the programs output, creating an error vector for each individual.
 
 Error diversity is very similar to \textit{behavioral diversity}, which calculates the percent of distinct behavior vectors in the population \citep{Jackson:2010:PPSN}. Here, the behavior of a program is the vector of outputs a program produces when run on the vector of inputs. Error diversity for a population will be less than or equal to its behavioral diversity, since two different behavior vectors may produce the same error vector, but two different error vectors must come from different behavior vectors.
 
-Helmuth et al. showed that in sets of runs where lexicase achieved higher success rates, it also maintained higher population diversity \cite{Helmuth:2015:ieeeTEC}. Here, we would like to explore whether similar effects are seen in error diversity across other problems.
-
+\cite{Helmuth:2015:ieeeTEC} showed that in sets of runs where lexicase achieved higher success rates, 
+it also maintained higher population diversity. Here, we would like to explore whether similar 
+effects are seen in error diversity across other problems.
 
 \subsection{Population Clustering}
 
