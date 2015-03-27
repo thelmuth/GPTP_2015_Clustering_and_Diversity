@@ -27,7 +27,9 @@ keywords to your chapter, these words should also be indexed
 
 \section{Introduction} \label{intro}
 
-
+Lexicase is a relatively new selection mechanism that has been shown to be effective in a variety of
+settings (\cite{Helmuth:2015:ieeeTEC,Helmuth:2015:GECCO}), with significantly higher success rates
+than both tournament selection and fitness sharing (IFS).
 
 Outline for intro:
 
@@ -42,6 +44,55 @@ Outline for intro:
 
 
 \section{Lexicase}
+
+%\begin{figure}[!t]
+%	\centering
+%	\fbox{\parbox{8.2cm}{To select a parent for use in a genetic operation:
+%			\begin{enumerate}
+%				\item {\ttfamily Initialize}:
+%				\begin{enumerate}
+%					\item Set {\ttfamily candidates} to be the entire population.
+%					\item Set {\ttfamily cases} to be a list of all of the test cases in random order.
+%				\end{enumerate}
+%				\item {\ttfamily Loop}:
+%				\begin{enumerate}
+%					\item Set {\ttfamily candidates} to be the subset of the current {\ttfamily candidates} that have exactly the best performance of any individual currently in {\ttfamily candidates} for the first case in {\ttfamily cases}.
+%					\item If {\ttfamily candidates} contains just a single individual then return it.
+%					\item If {\ttfamily cases} contains just a single test case then return a randomly selected individual from {\ttfamily candidates}.
+%					\item Otherwise remove the first case from {\ttfamily cases} and go to {\ttfamily Loop}.
+%				\end{enumerate}
+%			\end{enumerate}
+%		}}
+%		\caption{\label{lexicase}Pseudocode for the lexicase selection algorithm.}
+%	\end{figure}
+	
+Pseudocode for the lexicase selection algorithm is outlined in pseudocode in 
+Algorithm~\ref{alg:lexicase}. In each parent selection event, the lexicase selection algorithm 
+first randomly orders the test cases. It then eliminates any individuals in the population 
+that do not have the best performance on the first test case. 
+Assuming that more than one individual remains, it then loops, eliminating any individuals from 
+the remaining candidates that do not have the best performance on the second test case. This 
+process continues until only one individual remains and is selected, or until all test cases 
+have been used, in which case it randomly selects one of the remaining individuals.
+
+\begin{algorithm}[tb]
+	\begin{algorithmic}
+		\STATE \texttt{candidates} $:=$ the entire population
+		\STATE \texttt{cases} $:=$ list of all the test cases in a random order
+		\WHILE{$|\texttt{candidates}|>1$ \AND $|\texttt{cases}|>0$}
+			\STATE \texttt{current}, \texttt{cases} := $\textrm{first}(\texttt{cases})$, $\textrm{rest}(\texttt{cases})$
+			\STATE \texttt{best\_performance} $:= \min \{ \textrm{perf}(i, \texttt{current}) \;|\; i \in \texttt{candidates} \}$
+			\STATE \texttt{candidates} := $\{ i \;|\; i \in \texttt{candidates} \;\land\; \textrm{perf}(i, \texttt{current}) = \texttt{best\_performance}\}$
+		\ENDWHILE
+		\RETURN random individual from \texttt{candidates}
+	\end{algorithmic}
+	\caption{Psuedocode for the lexicase selection algorithm. The use of $\min$ when computing 
+		\texttt{best\_performance} assumes that the goal is to minimize on each test case, which
+		is true in the work presented here, where the goal for all test cases is to minimize error.
+		This can be easily generalized to other settings.}
+	\label{alg:lexicase}
+\end{algorithm}
+
 (include description, brief account of prior work, and important properties)
 
 
