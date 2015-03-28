@@ -28,6 +28,7 @@ keywords to your chapter, these words should also be indexed
 
 \section{Introduction} \label{intro}
 
+\marginpar{Need to get the GECCO 2015 details right in ``spector.bib''.}
 Lexicase is a relatively new selection mechanism that has been shown to be effective in a variety of
 settings (\cite{Helmuth:2015:ieeeTEC,Helmuth:2015:GECCO}), with significantly higher success rates
 than both tournament selection and fitness sharing (IFS).
@@ -96,6 +97,7 @@ diversity in two different ways, error diversity and population clustering, and 
 for lexicase, tournament selection, and IFS.
 
 \subsection{Error Diversity}
+\label{sec:errorDiversityDef}
 
 \textit{Error diversity} measures the semantic diversity of a population as the percent of distinct error vectors in the population. When evaluating a program, it is tested on a set of test cases composed of input/output pairs. Then, one or more error functions are applied to the desired output and the programs output, creating an error vector for each individual.
 
@@ -106,24 +108,149 @@ it also maintained higher population diversity. Here, we would like to explore w
 effects are seen in error diversity across other problems.
 
 \subsection{Population Clustering}
+\label{sec:clusterCountDef}
 
 One hypothesis we have developed as to why lexicase selection has led to improved performance compared to tournament selection and IFS is that it enables a population to develop niches of individuals in the population that evolve side-by-side, similar to more explicit niching methods such as island models. These niches would specialize in solving specific subsets of the training set. We expect that evolution may sometimes progress when individuals from separate niches mate, creating children that combine the abilities of each parent and creating a larger niche that combines the parents' niches. If crossover continues combining niches throughout evolution, we hope that eventually an individual will be created that combines the requirements of all of the training cases, solving the problem.
 
 We would like to explore the effects of different parent selection methods on the development of niches within a population. We expect that using lexicase selection will result in larger numbers of clusters than tournament selection or IFS.
 
-To explore the idea of niches within a single population, we must be able to measure the niching of a population with respect to the training cases. We can use a clustering algorithm to find the number of clusters exist in a population, plotting a measurement of the clustering at each generation.
+To explore the idea of niches within a single population, we must be able to measure the niching of a 
+population with respect to the training cases. Our approach here is to use a clustering algorithm to find 
+the number of clusters that exist in a population, plotting a measurement of the clustering at each 
+generation.
 
-We would like to cluster individuals based on their error vectors across the training cases. Since we are primarily interested on whether an individual performs at least as well as every other individual in the population, we reduce the error vectors into binary vectors that indicate whether an individual achieved the best error on each test case in that generation. This allows us to ignore the differences between individuals that perform poorly on cases in different ways, and concentrate on how individuals cluster based on cases on which they perform highly.
+We would like to cluster individuals based on their error vectors across the training cases. 
+Since we are primarily interested on whether an individual performs at least as well as every other 
+individual in the population, we convert the error vectors into binary ``elitized'' error vectors 
+that indicate whether an individual achieved the best error on each test case in that generation. 
+This allows us to ignore the differences between individuals that perform poorly on cases in different 
+ways, and concentrate on how individuals cluster based on which cases they perform well on.
+\marginpar{Does this description of how we ``elitize'' the error vectors make sense? Should we 
+	include an example?}
 
-We count clusters in a population by using agglomerative clustering. Agglomerative clustering creates a hierarchical clustering model by first placing each individual into its own cluster. It then iteratively combines the two closest clusters into a single cluster, until all clusters have been combined into a single cluster. We can determine the distance between two clusters when they were combined into a larger cluster. Using this information, we can calculate the number of clusters for any particular distance between clusters. Since we are using binary error vectors, we can use the Manhattan distance between any two error vectors to determine the number of training cases on which two individuals have different ``eliteness'' results\footnote{We used the R implementation of agglomerative clustering texttt{agnes} using the average linkage when combining clusters.} We chose to find the number of clusters that differed on at least 10\% of the training cases; for example, if a problem has 200 training cases, we found the number of clusters that differed in binary elitness on at least 20 training cases. While this distance is somewhat arbitrary, it gives a good estimation of how many groups of individuals are doing significantly different things in the population.
+In this work we use agglomerative clustering to count how many clusters there are in the population 
+at each generation. Agglomerative clustering creates 
+a hierarchical clustering model by first placing each individual into its own cluster. It then 
+iteratively combines the two closest clusters into a single cluster, until all clusters have been 
+combined into a single cluster. This single cluster includes the distance between each pair of clusters 
+that were combined into a larger cluster, and we can break the single cluster into smaller clusters by
+``cutting'' the merge between any two clusters whose distance exceeds some threshold.
+\marginpar{Should we include a dendogram and talk about the cutting in terms of levels in the diagram?}
 
+Since we are using binary error vectors, we can use the 
+Manhattan distance as our distance metric, which makes the distance between two error vectors
+a count of how many test cases on which those two individuals have different ``eliteness'' 
+results.\footnote{We used the \texttt{agnes} \citep{cluster} implementation of 
+	agglomerative clustering in R \citep{R}, using the \texttt{average} linkage when 
+	combining clusters.} 
+We chose to count the number of clusters that differed on at least 10\% of the training cases; 
+for example, if a problem has 200 training cases, we counted the number of clusters that differed 
+in binary elitness on at least 20 training cases. While this distance is somewhat arbitrary, 
+it gives a reasonable and consistent estimate of how many groups of individuals are doing 
+significantly different things in a given generation.
 
-\section{Plots and descriptions of plots}
+\section{Experimental setup}
+\label{sec:setup}
 
-[somewhere, we should say how many cases there are for each problem, and since we look at clusters at 10\% of the cases, what that height is. For most problems there were 200 cases, but a few had 100]
+To better understand the impact of lexicase selection on population diversity, we collected data
+from 100 runs each of 8 different problems described in \cite{Helmuth:2015:GECCO}, all of which are
+basic programming problems taken from introductory programming texts. Table~\ref{tab:problems} lists
+the problems, a brief description, and the number of test cases; other details of the runs can be
+found in \cite{Helmuth:2015:GECCO}. In Table~\ref{tab:successCounts} we've also provided the number 
+of successes, i.e., runs where an program was evolved with total error of 0 across all the test cases.
+Success rates aren't the focus of this paper, but those numbers give a sense of the relative
+difficulty of the problems and illustrate the substantial improvements that lexicase selection
+provides over both tournament selection and IFS.
 
+\begin{table}
+	\caption{Short descriptions of the 8 test problems used here, along with the number of test cases
+		for each. See \cite{Helmuth:2015:GECCO} for more details on each problem.}
+	\label{tab:problems}
+	\begin{tabular}{lp{6.5cm}r}
+		Problem name \quad & Description \quad & \# test cases \\
+		\hline
+		replace-space-with-newline & Print the input string, replacing spaces with newlines. Also, return the number of non-whitespace characters. & 200 \\
+		syllables & Count the number of occurrences of vowels (a, e, i, o, u, y) in the given string and print that number as \texttt{X} in \texttt{The number of syllables is X}. & 100 \\
+		string-lengths-backwards & Given a vector of strings, print the length of each string in reverse order (starting with last and ending with first). & 100 \\
+		negative-to-zero & Given a vector of integers, return the vector where all negative integers have been replaced by 0. & 200 \\
+		double-letters & Given a string, print the string, doubling every letter character, and tripling every exclamation point. All other non-alphabetic and non-exclamation characters should be printed a single time each. & 100 \\
+		scrabble-score & Given a string of visible ASCII characters, return the Scrabble score for that string. & 200 \\
+		checksum & Given a string, compute the integer ASCII values of the characters in the string, sum them, take the sum modulo 64, add the integer value of the space character, and then convert that integer back into its corresponding character (the checksum character). The program must print \texttt{Check sum is X}, where \texttt{X} is replaced by the correct checksum character. & 100 \\
+		count-odds & Return the number of integers in a given vector that are odd. & 200
+	\end{tabular}
+\end{table}
 
-\begin{figure}%[t] %[t] sets the image at the top of the page; t = top, b = bottom, h = here%
+\begin{table}
+	\caption{Number of successes (out of 100 runs) for each of the 8 test problems used here for each
+		tested selection mechanism. These numbers are similar but not identical to those reported in 
+		\cite{Helmuth:2015:GECCO} because new runs were performed for this paper.}
+	\label{tab:successCounts}
+	\begin{tabular}{lrrr}
+		Problem name \quad & \# lexicase successes \quad & \# tournament successes \quad & \# IFS successes \\
+		\hline
+		replace-space-with-newline & 55 & 13 & 17 \\
+		syllables & 22 & 1 & 2 \\
+		string-lengths-backwards & 75 & 19 & 10 \\
+		negative-to-zero & 57 & 15 & 7 \\
+		double-letters & 5 & 0 & 0 \\
+		scrabble-score & 0 & 0 & 0 \\
+		checksum & 0 & 0 & 0 \\
+		count-odds & 4 & 0 & 0 \\
+	\end{tabular}
+\end{table}
+
+All runs were done using the Clojush implementation\footnote{\url{https://github.com/lspector/Clojush}} 
+of the PushGP system \citep{spector:2002:GPEM, 1068292}. Each run used a population size of 1,000 
+individuals, and runs continued for either 300 generations or a until solution was found, whichever 
+came first. 
+
+For each run we collected vectors of the test case errors for each individual for every
+generation. These were then used to computer the error diversity (see Section~\ref{sec:errorDiversityDef}
+above) and the number of clusters (see Section~\ref{sec:clusterCountDef}).
+
+\section{Results}
+
+In this section we present plots showing error diversity and cluster counts over time for each of
+the eight test problems. Below each plot is a smaller sub-plot showing the number of successes 
+over time for each selection; since runs end when a solution is found, the successes plot gives a
+sense of how many runs are still being represented in primary plot at a given number of generations.
+In Figure~\ref{rswnDiv}, for example, the number of lexicase successes is nearly 25 by generation
+50, and nearly 50 by generation 150. Thus there are slightly more than 75 data points still represented
+in the lexicase data at generation 50, but only about 50 data points represented from generations 150
+to 300. Each plot includes a line indicating the median error diversity or median cluster count across
+whichever of the 100 runs was still running at that generation; the lexicase line is marked with circles,
+the tournament selection line with triangles, and the IFS line with squares. We also indicate the 
+range from the 25\% percentile to the 75\% percentile with a gray band around the median line; 
+unfortunately the tournament and IFS results are often very similar and strongly overlap.\marginpar{We've used transparency
+	to try to let you ``see through'' the overlap, but that's still awkward, and it's unclear how
+	well that will print when it gets to the book.}
+
+In general the error diversity numbers for lexicase are substantially and significantly
+higher than those for either tournament selection or IFS, both of which tend to be extremely similar.
+The string-lengths-backwards problems was the only problem for which there was any substantial overlap 
+between the range of values for lexicase and the other two selection mechanisms (see 
+Figure~\ref{string-lengths-backwardsDiv}). Typically the lexicase error diversity rises very sharply
+in the early generations leveling off somewhere between 0.75 and 1.0, meaning that between $3/4$ or
+more of the individuals in the lexicase runs have unique ``elitized'' error vectors. This is in contrast
+to the tournament selection and IFS results, where the median error diversity values rarely rise above
+0.5; the two exceptions are on the scrabble-score and count-odds problems 
+(Figures~\ref{scrabble-scoreDiv}} and~\ref{count-oddsDiv}), which neither ever
+solved, where the error diversity values approach or exceed 0.75.
+
+The cluster count results are more mixed. Lexicase has clearly higher cluster counts for
+half of the problems (replace-space-with-newline, syllables, scrabble-score, and count-odds;
+Figures~\ref{rswnClu}, \ref{syllablesClu}, \ref{scrabble-scoreClu} and~\ref{count-oddsClu}).
+It also starts with much higher counts on the double-letters problem (Figure~\ref{double-lettersClu}), 
+but those numbers drop again quickly, matching the other two approaches by around generation 100. 
+On the negative-to-zero problem (Figure~\ref{negative-to-zeroClu}), the lexicase
+cluster counts remain small (about the same as for both tournament selection and IFS) throughout the runs.
+Particularly striking are lexicase cluster counts for string-lengths-backwards and checksum, where the
+number of clusters with lexicase are actually lower earlier in the run. The number of clusters with
+checksum remain low throughout (Figure~\ref{checksumClu}), while the number of string-lengths-backwards 
+clusters climb up to roughly the same values as tournament selection and IFS by around generation 150 
+(Figure~\ref{string-lengths-backwardsClu}).
+
+\begin{figure}[p] %[t] sets the image at the top of the page; t = top, b = bottom, h = here%
 %\sidecaption[t]
 \centering
 \includegraphics[width=11.5cm]{replace-space-with-newline-diversity.pdf}
@@ -131,7 +258,7 @@ We count clusters in a population by using agglomerative clustering. Agglomerati
 \label{rswnDiv}
 \end{figure}
 
-\begin{figure}%[t] %[t] sets the image at the top of the page; t = top, b = bottom, h = here%
+\begin{figure}[p] %[t] sets the image at the top of the page; t = top, b = bottom, h = here%
 %\sidecaption[t]
 \centering
 \includegraphics[width=11.5cm]{replace-space-with-newline-cluster.pdf}
@@ -139,7 +266,7 @@ We count clusters in a population by using agglomerative clustering. Agglomerati
 \label{rswnClu}
 \end{figure}
 
-\begin{figure}%[t] %[t] sets the image at the top of the page; t = top, b = bottom, h = here%
+\begin{figure}[p] %[t] sets the image at the top of the page; t = top, b = bottom, h = here%
 %\sidecaption[t]
 \centering
 \includegraphics[width=11.5cm]{syllables-diversity.pdf}
@@ -147,7 +274,7 @@ We count clusters in a population by using agglomerative clustering. Agglomerati
 \label{syllablesDiv}
 \end{figure}
 
-\begin{figure}%[t] %[t] sets the image at the top of the page; t = top, b = bottom, h = here%
+\begin{figure}[p] %[t] sets the image at the top of the page; t = top, b = bottom, h = here%
 %\sidecaption[t]
 \centering
 \includegraphics[width=11.5cm]{syllables-cluster.pdf}
@@ -155,7 +282,7 @@ We count clusters in a population by using agglomerative clustering. Agglomerati
 \label{syllablesClu}
 \end{figure}
 
-\begin{figure}%[t] %[t] sets the image at the top of the page; t = top, b = bottom, h = here%
+\begin{figure}[p] %[t] sets the image at the top of the page; t = top, b = bottom, h = here%
 %\sidecaption[t]
 \centering
 \includegraphics[width=11.5cm]{string-lengths-backwards-diversity.pdf}
@@ -163,7 +290,7 @@ We count clusters in a population by using agglomerative clustering. Agglomerati
 \label{string-lengths-backwardsDiv}
 \end{figure}
 
-\begin{figure}%[t] %[t] sets the image at the top of the page; t = top, b = bottom, h = here%
+\begin{figure}[p] %[t] sets the image at the top of the page; t = top, b = bottom, h = here%
 %\sidecaption[t]
 \centering
 \includegraphics[width=11.5cm]{string-lengths-backwards-cluster.pdf}
@@ -171,7 +298,7 @@ We count clusters in a population by using agglomerative clustering. Agglomerati
 \label{string-lengths-backwardsClu}
 \end{figure}
 
-\begin{figure}%[t] %[t] sets the image at the top of the page; t = top, b = bottom, h = here%
+\begin{figure}[p] %[t] sets the image at the top of the page; t = top, b = bottom, h = here%
 %\sidecaption[t]
 \centering
 \includegraphics[width=11.5cm]{negative-to-zero-diversity.pdf}
@@ -179,7 +306,7 @@ We count clusters in a population by using agglomerative clustering. Agglomerati
 \label{negative-to-zeroDiv}
 \end{figure}
 
-\begin{figure}%[t] %[t] sets the image at the top of the page; t = top, b = bottom, h = here%
+\begin{figure}[p] %[t] sets the image at the top of the page; t = top, b = bottom, h = here%
 %\sidecaption[t]
 \centering
 \includegraphics[width=11.5cm]{negative-to-zero-cluster.pdf}
@@ -187,7 +314,7 @@ We count clusters in a population by using agglomerative clustering. Agglomerati
 \label{negative-to-zeroClu}
 \end{figure}
 
-\begin{figure}%[t] %[t] sets the image at the top of the page; t = top, b = bottom, h = here%
+\begin{figure}[p] %[t] sets the image at the top of the page; t = top, b = bottom, h = here%
 %\sidecaption[t]
 \centering
 \includegraphics[width=11.5cm]{double-letters-diversity.pdf}
@@ -195,7 +322,7 @@ We count clusters in a population by using agglomerative clustering. Agglomerati
 \label{double-lettersDiv}
 \end{figure}
 
-\begin{figure}%[t] %[t] sets the image at the top of the page; t = top, b = bottom, h = here%
+\begin{figure}[p] %[t] sets the image at the top of the page; t = top, b = bottom, h = here%
 %\sidecaption[t]
 \centering
 \includegraphics[width=11.5cm]{double-letters-cluster.pdf}
@@ -203,7 +330,7 @@ We count clusters in a population by using agglomerative clustering. Agglomerati
 \label{double-lettersClu}
 \end{figure}
 
-\begin{figure}%[t] %[t] sets the image at the top of the page; t = top, b = bottom, h = here%
+\begin{figure}[p] %[t] sets the image at the top of the page; t = top, b = bottom, h = here%
 %\sidecaption[t]
 \centering
 \includegraphics[width=11.5cm]{scrabble-score-diversity.pdf}
@@ -211,7 +338,7 @@ We count clusters in a population by using agglomerative clustering. Agglomerati
 \label{scrabble-scoreDiv}
 \end{figure}
 
-\begin{figure}%[t] %[t] sets the image at the top of the page; t = top, b = bottom, h = here%
+\begin{figure}[p] %[t] sets the image at the top of the page; t = top, b = bottom, h = here%
 %\sidecaption[t]
 \centering
 \includegraphics[width=11.5cm]{scrabble-score-cluster.pdf}
@@ -219,7 +346,7 @@ We count clusters in a population by using agglomerative clustering. Agglomerati
 \label{scrabble-scoreClu}
 \end{figure}
 
-\begin{figure}%[t] %[t] sets the image at the top of the page; t = top, b = bottom, h = here%
+\begin{figure}[p] %[t] sets the image at the top of the page; t = top, b = bottom, h = here%
 %\sidecaption[t]
 \centering
 \includegraphics[width=11.5cm]{checksum-diversity.pdf}
@@ -227,7 +354,7 @@ We count clusters in a population by using agglomerative clustering. Agglomerati
 \label{checksumDiv}
 \end{figure}
 
-\begin{figure}%[t] %[t] sets the image at the top of the page; t = top, b = bottom, h = here%
+\begin{figure}[p] %[t] sets the image at the top of the page; t = top, b = bottom, h = here%
 %\sidecaption[t]
 \centering
 \includegraphics[width=11.5cm]{checksum-cluster.pdf}
@@ -235,7 +362,7 @@ We count clusters in a population by using agglomerative clustering. Agglomerati
 \label{checksumClu}
 \end{figure}
 
-\begin{figure}%[t] %[t] sets the image at the top of the page; t = top, b = bottom, h = here%
+\begin{figure}[p] %[t] sets the image at the top of the page; t = top, b = bottom, h = here%
 %\sidecaption[t]
 \centering
 \includegraphics[width=11.5cm]{count-odds-diversity.pdf}
@@ -243,7 +370,7 @@ We count clusters in a population by using agglomerative clustering. Agglomerati
 \label{count-oddsDiv}
 \end{figure}
 
-\begin{figure}%[t] %[t] sets the image at the top of the page; t = top, b = bottom, h = here%
+\begin{figure}[p] %[t] sets the image at the top of the page; t = top, b = bottom, h = here%
 %\sidecaption[t]
 \centering
 \includegraphics[width=11.5cm]{count-odds-cluster.pdf}
