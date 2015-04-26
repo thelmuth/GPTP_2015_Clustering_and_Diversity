@@ -114,12 +114,9 @@ One hypothesis we have developed as to why lexicase selection has led to improve
 
 We would like to explore the effects of different parent selection methods on the development of niches within a population. We expect that using lexicase selection will result in larger numbers of clusters than tournament selection or IFS.
 
-To explore the idea of niches within a single population, we must be able to measure the niching of a 
-population with respect to the training cases. Our approach here is to use a clustering algorithm to find 
-the number of clusters that exist in a population, plotting a measurement of the clustering at each 
-generation.
+To explore the idea of niches within a single population, we must be able to measure the niching of a population with respect to the training cases. Our approach here is to use a clustering algorithm to find the number of clusters that exist in a population, plotting a measurement of the clustering at each generation. We base the clustering of the population on their error vectors across the training cases. \cite{Krawiec:2015:EuroGP} use a similar approach, except that they cluster the test cases into some number of search objectives based on the individuals, where we cluster the individuals into niches based on the test cases.
 
-We would like to cluster individuals based on their error vectors across the training cases. 
+
 Since we are primarily interested on whether an individual performs at least as well as every other 
 individual in the population, we convert the error vectors into binary ``elitized'' error vectors 
 that indicate whether an individual achieved the best error on each test case in that generation. 
