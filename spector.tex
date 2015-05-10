@@ -2,8 +2,8 @@
 %
 %%%%%%%%%%%%%%%% Springer %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\title*{Impact of Lexicase Selection on Diversity and Population Clustering In Genetic Programming}
-\titlerunning{Impact of Lexicase Selection on Diversity and Clustering in GP}
+\title*{Lexicase selection for program synthesis: a diversity analysis}
+\titlerunning{Lexicase selection for program synthesis: a diversity analysis}
 % Use \titlerunning{Short Title} for an abbreviated version of
 % your contribution title if the original one is too long
 \author{Thomas Helmuth, Nicholas Freitag McPhee, Lee Spector}
@@ -15,10 +15,10 @@
 
 \maketitle
 
-\abstract{Each chapter should be preceded by an abstract (10--15 lines long) that summarizes the content. The abstract will appear \textit{online} at \url{www.SpringerLink.com} and be available with unrestricted access. This allows unregistered users to read the abstract as a teaser for the complete chapter. As a general rule the abstracts will not appear in the printed version of your book unless it is the style of your particular book or that of the series to which your book belongs.}
+\abstract{Lexicase selection is a selection method for  evolutionary computation in which individuals are selected by filtering the population by performance on individual fitness cases, considered in random order. Lexicase selection, when used as the parent selection method in genetic programming, has been shown to provide significant improvements in terms of problem-solving power. In this chapter we investigate the reasons for the success of lexicase selection, focusing in particular on the ways in which lexicase selection seems to help maintain population diversity. We present data from eight program synthesis problems and compare lexicase selection, in terms of problem solving power and diversity, to tournament selection and selection based on implicit fitness sharing. We conclude that lexicase selection does indeed produce more diverse populations, and that this helps to explain the utility of lexicase selection for program synthesis.}
 
 \begin{keywords}
-keywords to your chapter, these words should also be indexed
+Lexicase selection, diversity.
 \end{keywords}
 \index{keywords to your chapter}
 \index{these words should also be indexed}
@@ -29,7 +29,7 @@ keywords to your chapter, these words should also be indexed
 \section{Introduction} \label{intro}
 
 \marginpar{Need to get the GECCO 2015 details right in ``spector.bib''.}
-Lexicase is a relatively new selection mechanism that has been shown to be effective in a variety of
+Lexicase selection is a relatively new selection mechanism that has been shown to be effective in a variety of
 settings (\cite{Helmuth:2015:ieeeTEC,Helmuth:2015:GECCO}), with significantly higher success rates
 than both tournament selection and fitness sharing (IFS).
 
@@ -45,7 +45,7 @@ Outline for intro:
 \end{itemize}
 
 
-\section{Lexicase}
+\section{Lexicase selection}
 
 \marginpar{(include description, brief account of prior work, and important properties)}
 	
@@ -99,12 +99,12 @@ for lexicase, tournament selection, and IFS.
 \subsection{Error Diversity}
 \label{sec:errorDiversityDef}
 
-\textit{Error diversity} measures the semantic diversity of a population as the percent of distinct error vectors in the population. When evaluating a program, it is tested on a set of test cases composed of input/output pairs. Then, one or more error functions are applied to the desired output and the programs output, creating an error vector for each individual.
+\textit{Error diversity} measures the semantic diversity of a population as the percent of distinct error vectors in the population. When evaluating a program, it is tested on a set of test cases composed of input/output pairs. Then, one or more error functions are applied to the desired output and the program's output, creating an error vector for each individual.
 
-Error diversity is very similar to \textit{behavioral diversity}, which calculates the percent of distinct behavior vectors in the population \citep{Jackson:2010:PPSN}. Here, the behavior of a program is the vector of outputs a program produces when run on the vector of inputs. Error diversity for a population will be less than or equal to its behavioral diversity, since two different behavior vectors may produce the same error vector, but two different error vectors must come from different behavior vectors.
+Error diversity is similar to \textit{behavioral diversity}, which calculates the percent of distinct behavior vectors in the population \citep{Jackson:2010:PPSN}. Here, the behavior of a program is the vector of outputs a program produces when run on the vector of inputs. Error diversity for a population will be less than or equal to its behavioral diversity, since two different behavior vectors may produce the same error vector, but two different error vectors must come from different behavior vectors.
 
-\cite{Helmuth:2015:ieeeTEC} showed that in sets of runs where lexicase achieved higher success rates, 
-it also maintained higher population diversity. Here, we would like to explore whether similar 
+\cite{Helmuth:2015:ieeeTEC} showed that in sets of runs in which lexicase selection achieved higher success rates, 
+it also maintained higher population diversity. Here, we  explore whether similar 
 effects are seen in error diversity across other problems.
 
 \subsection{Population Clustering}
