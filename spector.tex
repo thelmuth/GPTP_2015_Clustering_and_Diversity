@@ -145,6 +145,7 @@ for example, if a problem has 200 training cases, we counted the number of clust
 in binary elitness on at least 20 training cases. While this distance is somewhat arbitrary, 
 it gives a reasonable and consistent estimate of how many groups of individuals are doing 
 significantly different things in a given generation.
+\marginpar{We should tell what linkage we're using to combine clusters (I think it's average, but we should check).}
 
 \section{Experimental setup}
 \label{sec:setup}
@@ -400,7 +401,7 @@ from generation 100 forward. This means that there are hundreds of groups of ind
 whose error vectors are not just distinct, but that their ``elitized'' values differ on at least 10\%
 of the test cases. For count-odds, which has 200 test cases, that means there are consistently over
 100 clusters, where each pair of clusters has different ``elitized'' values for at least 20 test cases.
-This suggests there lexicase is maintaining large numbers of sub-groups of the population that are 
+This suggests that lexicase is maintaining large numbers of sub-groups of the population that are 
 capable of solving different parts of the problem. If solutions aren't being discovered (and they're
 not coming quickly) that might indicate that the genetic operators aren't able to act on the structure 
 of the programs in those sub-populations in ways that allow progress.
@@ -408,6 +409,7 @@ of the programs in those sub-populations in ways that allow progress.
 Interpretation of the cluster count results on the other four problems is more difficult. Analysis
 of some of the lexicase checksum runs suggests that the lack of clustering there might be a function
 of some structural issues with the test cases. For that problem 50 of the 100 test cases are simply
+\marginpar{This is incorrect. Firstly, I believe there are 200 test cases for this problem, but I should double check. Secondly, half the test cases use levenshtein distance between correct output and program's output. So, the last character will be part of that. The other half the test cases look if the last printed char is the correct checksum char, but don't require "Check sum is" printed first.}
 checking that the program prints \texttt{Check sum is} at the start of its printed text, where the other
 50 test cases are confirming that the printed check sum character is in fact correct. Looking at run
 results, it appears that populations quickly evolve the ability to print \texttt{Check sum is}, but
@@ -437,7 +439,7 @@ at all using tournament selection and IFS. Solutions for these two problems tend
 later in the run (double-letters: 109, 122, 192, 275, and 291; count-odds: 65, 233, 279), so letting
 runs on those problems go longer might be revealing.
 
-\marginpar{Tournament and IFS seem to be super similar. What, if anything, do we say about that?}
+(TO DO: Nic: Tournament and IFS seem to be super similar. What, if anything, do we say about that?) (Tom: Firstly, this isn't too surprising when you consider that IFS is using tournaments. Thus, it is like it rearranges the rankings of the individuals, but then uses similar selection probabilities. It might be difficult to achieve more diversity with this selection probability mass function. The other thing to remark upon is that while IFS was devised as a diversity increaser, it doesn't seem to work that way in this setting. This indicates that it hasn't been sufficiently tested for diversity maintenance, at least for this type of problem. In places where it does increase performance, maybe it isn't because of diversity?
 
 \section{Conclusions}
 
