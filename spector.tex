@@ -110,11 +110,13 @@ effects are seen in error diversity across other problems.
 \subsection{Population Clustering}
 \label{sec:clusterCountDef}
 
-One hypothesis we have developed as to why lexicase selection has led to improved performance compared to tournament selection and IFS is that it enables a population to develop niches of individuals in the population that evolve side-by-side, similar to more explicit niching methods such as island models. These niches would specialize in solving specific subsets of the training set. We expect that evolution may sometimes progress when individuals from separate niches mate, creating children that combine the abilities of each parent and creating a larger niche that combines the parents' niches. If crossover continues combining niches throughout evolution, we hope that eventually an individual will be created that combines the requirements of all of the training cases, solving the problem.
+One hypothesis we have developed as to why lexicase selection has led to improved performance compared to tournament selection and IFS is that it enables a population to develop groups of individuals that evolve side-by-side, similar to more explicit niching methods such as island models. These groups would specialize in solving specific subsets of the training set. We expect that evolution may sometimes progress when two individuals from separate groups mate, creating a child that combines the abilities of each parent, creating a larger group that combines the parents' specializations. If crossover continues combining groups throughout evolution, we hope that eventually an individual will be created that combines the requirements of all of the training cases, solving the problem.
 
-We would like to explore the effects of different parent selection methods on the development of niches within a population. We expect that using lexicase selection will result in larger numbers of clusters than tournament selection or IFS.
+We would like to explore the effects of different parent selection methods on the development of these clusters of individuals that perform similarly across the test cases. We expect that using lexicase selection will result in larger numbers of clusters than tournament selection or IFS, since it emphasizes the selection of individuals that specialize on specific test cases rather than performing adequately across all test cases.
 
-To explore the idea of niches within a single population, we must be able to measure the niching of a population with respect to the training cases. Our approach here is to use a clustering algorithm to find the number of clusters that exist in a population, plotting a measurement of the clustering at each generation. We base the clustering of the population on their error vectors across the training cases. \cite{Krawiec:2015:EuroGP} use a similar approach, except that they cluster the test cases into some number of search objectives based on the individuals, where we cluster the individuals into niches based on the test cases.
+TMH DONE THROUGH HERE
+
+To explore this idea of clusters within a single population, we must be able to measure the clustering of a population with respect to the training cases. Our approach here is to use a clustering algorithm to find the number of clusters that exist in a population, plotting a measurement of the clustering at each generation. We base the clustering of the population on their error vectors across the training cases. \cite{Krawiec:2015:EuroGP} use a similar approach, except that they cluster the test cases into some number of search objectives based on the individuals, where we cluster the individuals into niches based on the test cases.
 
 
 Since we are primarily interested on whether an individual performs at least as well as every other 
@@ -422,8 +424,9 @@ suggests that a new set of test cases might improve the likelihood of success fo
 less emphasis on the fairly simple task of printing \texttt{Check sum is} and more single character
 input strings so there's a broad group of test cases that only require the basic checksum calculation
 on a single character, hopefully providing an initial gradiant that evolution can use to gain
-traction on the problem.\marginpar{It seems plausible that further exploration of the other three
-	problems with weird clustering results would also be instructive, but we haven't done that yet.}
+traction on the problem.%\marginpar{
+SIDENOTE: It seems plausible that further exploration of the other three
+problems with weird clustering results would also be instructive, but we haven't done that yet.%}
 
 It's also worth noting that on problems where solutions were discovered, lexicase runs had successes 
 all across the 300 generations. This, combined with the high levels of error diversity and the often 
