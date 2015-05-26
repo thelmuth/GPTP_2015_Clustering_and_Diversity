@@ -87,7 +87,6 @@ cases.
 
 \section{Explorations of Population Dynamics}
 
-\marginpar{why do we want to explore these things}
 
 The key goal of this paper is to try to better understand why lexicase outperforms tournament selection
 and IFS on a variety of problems. One hypothesis is that lexicase helps maintain population diversity
@@ -114,27 +113,33 @@ One hypothesis we have developed as to why lexicase selection has led to improve
 
 We would like to explore the effects of different parent selection methods on the development of these clusters of individuals that perform similarly across the test cases. We expect that using lexicase selection will result in larger numbers of clusters than tournament selection or IFS, since it emphasizes the selection of individuals that specialize on specific test cases rather than performing adequately across all test cases.
 
-TMH DONE THROUGH HERE
-
-To explore this idea of clusters within a single population, we must be able to measure the clustering of a population with respect to the training cases. Our approach here is to use a clustering algorithm to find the number of clusters that exist in a population, plotting a measurement of the clustering at each generation. We base the clustering of the population on their error vectors across the training cases. \cite{Krawiec:2015:EuroGP} use a similar approach, except that they cluster the test cases into some number of search objectives based on the individuals, where we cluster the individuals into niches based on the test cases.
+To examine this idea of clusters within a single population, we must be able to measure the clustering of a population with respect to the training cases. Our approach here is to use a clustering algorithm to find the number of clusters that exist in a population, plotting a measurement of the clustering at each generation. We base the clustering of the population on the individuals' error vectors across the training cases. \cite{Krawiec:2015:EuroGP} use a similar approach, except that they cluster the test cases into some number of search objectives based on the individuals, where we cluster the individuals into groups based on the test cases.
 
 
-Since we are primarily interested on whether an individual performs at least as well as every other 
+Since we are primarily interested in whether an individual performs at least as well as every other 
 individual in the population, we convert the error vectors into binary ``elitized'' error vectors 
 that indicate whether an individual achieved the best error on each test case in that generation. 
-This allows us to ignore the differences between individuals that perform poorly on cases in different 
-ways, and concentrate on how individuals cluster based on which cases they perform well on.
-\marginpar{Does this description of how we ``elitize'' the error vectors make sense? Should we 
-	include an example?}
+More formally, if each individual $j$ in the population $P$ has error vector $error_j$ containing error values on the test cases $T$, then the elitized error vector for individual $i$ is defined by
+\[
+elitized_i[t] =
+\begin{cases}
+    0,         & \text{if } error_i[t] = \min\limits_{j \in P} (error_j[t])  \\
+    1,         & \text{otherwise}
+\end{cases}
+\]
+for $t \in T$.
+By elitizing the error vectors, we can ignore the differences between individuals that perform poorly on cases in different 
+ways, and concentrate on how individuals cluster based on the cases on which they perform well.
 
 In this work we use agglomerative clustering to count how many clusters there are in the population 
 at each generation. Agglomerative clustering creates 
 a hierarchical clustering model by first placing each individual into its own cluster. It then 
 iteratively combines the two closest clusters into a single cluster, until all clusters have been 
 combined into a single cluster. This single cluster includes the distance between each pair of clusters 
-that were combined into a larger cluster, and we can break the single cluster into smaller clusters by
+that were combined into a larger cluster. We can break the single cluster into smaller clusters by
 ``cutting'' the merge between any two clusters whose distance exceeds some threshold.
-\marginpar{Should we include a dendogram and talk about the cutting in terms of levels in the diagram?}
+%\marginpar{Should we include a dendogram and talk about the cutting in terms of levels in the diagram?}
+% TMH: I don't think we really have room for one :(
 
 Since we are using binary error vectors, we can use the 
 Manhattan distance as our distance metric, which makes the distance between two error vectors
@@ -147,7 +152,6 @@ for example, if a problem has 200 training cases, we counted the number of clust
 in binary elitness on at least 20 training cases. While this distance is somewhat arbitrary, 
 it gives a reasonable and consistent estimate of how many groups of individuals are doing 
 significantly different things in a given generation.
-\marginpar{We should tell what linkage we're using to combine clusters (I think it's average, but we should check).}
 
 \section{Experimental setup}
 \label{sec:setup}
@@ -400,9 +404,9 @@ As mentioned in Section~\ref{sec:results}, for four of the eight problems, the c
 also much higher for lexicase than for the other two selection mechanisms. For some of these problems
 (e.g., count-odds) there are over 100 clusters, and for syllables the median cluster count is over 400
 from generation 100 forward. This means that there are hundreds of groups of individuals in these runs
-whose error vectors are not just distinct, but that their ``elitized'' values differ on at least 10\%
+whose error vectors are not just distinct, but that their elitized values differ on at least 10\%
 of the test cases. For count-odds, which has 200 test cases, that means there are consistently over
-100 clusters, where each pair of clusters has different ``elitized'' values for at least 20 test cases.
+100 clusters, where each pair of clusters has different elitized values for at least 20 test cases.
 This suggests that lexicase is maintaining large numbers of sub-groups of the population that are 
 capable of solving different parts of the problem. If solutions aren't being discovered (and they're
 not coming quickly) that might indicate that the genetic operators aren't able to act on the structure 
