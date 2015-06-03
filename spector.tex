@@ -35,26 +35,23 @@ Lexicase selection, diversity.
 \index{keywords to your chapter}
 \index{these words should also be indexed}
 
-
-
-
 \section{Introduction} \label{intro}
 
-Lexicase selection is a relatively new selection mechanism that has been shown to be effective in a variety of
-settings (\cite{Helmuth:2015:ieeeTEC,Helmuth:2015:GECCO}), with significantly higher success rates
-than both tournament selection and fitness sharing (IFS).
+Lexicase selection is a recent selection method for  evolutionary computation in which individuals are selected by 
+filtering the population by performance on individual fitness cases, considered in random order. Lexicase 
+selection, when used as the parent selection method in genetic programming, has been shown to provide 
+significant improvements in terms of problem-solving power (\cite{Helmuth:2015:ieeeTEC,Helmuth:2015:GECCO}). 
+In this chapter we investigate the reasons for the success of lexicase selection, focusing in particular on the 
+ways in which lexicase selection seems to help maintain population diversity. We present data from eight 
+program synthesis problems and compare lexicase selection, in terms of problem solving power and diversity, 
+to tournament selection and selection based on implicit fitness sharing (IFS).
 
-Outline for intro:
-
-\begin{itemize}
-\item parent selection, including lexicase, tourney, and IFS
-
-\item Measures of population structure, including diversity and clustering
-
-\item Source of problems (software benchmarks)
-
-\end{itemize}
-
+We use two measures of popuation diversity to explore the impact of these selection mechanisms: 
+Error diversity and cluster counts. We find that lexicase runs have consistently 
+higher error diversity than tournament selection and IFS across all generations and all problems; the cluster 
+count values for lexicase are also generally higher, but those results are less consistent. Based on these results 
+we conclude that lexicase selection does indeed produce more diverse populations, and that this helps to explain 
+the utility of lexicase selection for program synthesis.
 
 \section{Lexicase selection}
 
@@ -97,6 +94,7 @@ cases.
 
 
 \section{Explorations of Population Dynamics}
+\label{sec:exploration}
 
 
 The key goal of this paper is to try to better understand why lexicase outperforms tournament selection
