@@ -460,16 +460,11 @@ On the set of problems explored here, error diversity seems to be a better predi
 
 \section{Conclusions}
 
-In short:
-\begin{itemize}
-	\item Lexicase selection does appear to increase and maintain population diversity.
-	\item Error diversity is consistently higher, usually \emph{much} higher with lexicase than
-	with either tournament selection or IFS.
-	\item Cluster counts are typically higher for lexicase, and when they aren't that may be
-	indicating important things about the problem or test case structure.
-	\item Lexicase runs continue to find solutions all through the 300 generations, suggesting
-	that the diversity is often able to be leveraged.
-\end{itemize}
+In this paper we used two different measures of diversity (error diversity and cluster counts) to try to better understand the impact of Lexicase selection, and why it seems to consistently outperform tournament selection and implicit fitness sharing (IFS) on a range of software synthesis problems \cite{Helmuth:2015:GECCO}. The error diversity was generally \emph{much} higher for lexicase than with either tournament selection or IFS, showing that lexicase was able to maintain a broad range of distinct behaviors over the course of runs. The clustering counts were typically higher with lexicase, and the instances where they weren't may say more about the problem or test case structure than about the selection mechanism. This suggests that error diversity is definitely a valuable metric when trying to understand the impact of system design decisions on population diversity. The value of cluster counts is less clear, but it seems likely that understanding why the cluster counts were so low on certain problems could be informative.
+
+Given that the Lexicase runs maintain error diversity all across the 300 generations, it seems plausible that extending the length of the runs would generate additional solutions; lexicase might still be effectively searching instead of hopelessly stalled due to convergence on some local optima. It would be illuminating to extend these runs to 500 or 1,000 generations and see whether lexicase is able to make ``better'' use of those additional computational resources.
+
+While the focus of this paper was to better understand the behavior of lexicase selection, the results also show that for both diversty measures used here tournament selection and IFS seem to have \emph{very} similar behaviors, which seems unfortunate given that IFS was specifically designed to help maintain diversity. It's unclear why the IFS diversity figures weren't higher, but both are aggregating all their test case errors into a single value, with IFS just weighting the components differently. It would be worth exploring this further, but this might provide additional evidence for the importance in lexicase of not aggregating the test case errors into a single value.
 
 \begin{acknowledgement}
 	Thanks to the members of the Hampshire College Computational Intelligence Lab for discussions that helped to improve the work described in this paper, to Josiah Erikson for systems support, and to Hampshire College for support for the Hampshire College Institute for Computational Intelligence. This material is based upon work supported by the National Science Foundation under Grants No. 1017817, 1129139, and 1331283. Any opinions, findings, and conclusions or recommendations expressed in this publication are those of the authors and do not necessarily reflect the views of the National Science Foundation.
