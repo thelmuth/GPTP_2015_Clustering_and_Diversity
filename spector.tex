@@ -172,7 +172,7 @@ the problems, a brief description, and the length of the error vectors\footnote{
 	require both returning a value and printing an output string; there are then two entries in the error vector, one for the
 	error in the returned value and one for the error of the printed output.}; other details of the runs can be
 found in \cite{Helmuth:2015:GECCO}. In Table~\ref{tab:successCounts} we've also provided the number 
-of successes, i.e., runs where a program was evolved with total error of 0 across all the training cases, as well as generalizing to an unseen test set.
+of successes, i.e., runs where a program was evolved with total error of 0 across all the training cases.
 Success rates aren't the focus of this paper, but those numbers give a sense of the relative
 difficulty of the problems and illustrate the substantial improvements that lexicase selection
 provides over both tournament selection and IFS.
@@ -195,23 +195,23 @@ provides over both tournament selection and IFS.
 	\end{tabular}
 \end{table}
 
+% Note: This data table has been verified by both Tools/mean_fitness_and_solution_counts.py and the CSVs we have in R.
 \begin{table}
 \centering
 	\caption{Number of successes (out of 100 runs) for each of the 8 test problems used here for each
 		tested selection mechanism. These numbers are similar but not identical to those reported in 
 		\cite{Helmuth:2015:GECCO} because new runs were performed for this paper.}
-	\label{tab:successCounts}
 	\begin{tabular}{lrrr}
 		Problem name \quad & Lexicase \quad & Tournament \quad & IFS \\
 		\hline
-		Replace Space With Newline & 55 & 13 & 17 \\
-		Syllables & 22 & 1 & 2 \\
-		String Lengths Backwards & 75 & 19 & 10 \\
-		Negative To Zero & 57 & 15 & 7 \\
+		Replace Space With Newline & 57 & 13 & 17 \\ %Matches with simplified
+		Syllables & 24 & 1 & 2 \\ %Matches with simplified
+		String Lengths Backwards & 75 & 18 & 12 \\
+		Negative To Zero & 72 & 15 & 9 \\
 		Double Letters & 5 & 0 & 0 \\
 		Scrabble Score & 0 & 0 & 0 \\
 		Checksum & 0 & 0 & 0 \\
-		Count Odds & 3 & 0 & 0 \\
+		Count Odds & 4 & 0 & 0 \\
 	\end{tabular}
 \end{table}
 
