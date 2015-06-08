@@ -116,12 +116,10 @@ from 100 runs each on 8 different problems described by \cite{Helmuth:2015:GECCO
 basic programming problems taken from introductory programming texts; several are readily solved, while others
 remain unsolved using this study's tools. Table~\ref{tab:problems} lists
 the problems, a brief description, and the length of the error vectors\footnote{For some of these problems, each test case
-	generates multiple error values because more than one error function is being applied. Several problem specifications
-	require both returning a value and printing an output string; there are then two entries in the error vector, one for the
-	error in the returned value and one for the error of the printed output.}; other details of the runs can be
-found in \cite{Helmuth:2015:GECCO}. In Table~\ref{tab:successCounts} we've also provided the number 
+	generates multiple error values because we apply more than one error function.}; other details of the runs can be
+found in \citep{Helmuth:2015:GECCO}. In Table~\ref{tab:successCounts} we've also provided the number 
 of successes, i.e., runs in which a program was evolved with total error of 0 across all the training cases.
-Success rates aren't the focus of this chapter, but those numbers give a sense of the relative
+Success rates aren't the focus of this chapter, but these numbers give a sense of the relative
 difficulty of the problems and illustrate the substantial improvements that lexicase selection
 provides over both tournament selection and IFS.
 
@@ -130,6 +128,7 @@ provides over both tournament selection and IFS.
 	\caption{Short descriptions of the 8 test problems used here, along with the number of errors in each error vector. See \citep{Helmuth:2015:GECCO} for more details on each problem.}
 	\label{tab:problems}
 	\begin{tabular}{lp{7.0cm}r}
+		\hline
 		Problem name \quad & Description \quad & \# errors \\
 		\hline
 		Replace Space With Newline & Print the input string, replacing spaces with newlines. Also, return the number of non-whitespace characters. & 200 \\
@@ -139,7 +138,8 @@ provides over both tournament selection and IFS.
 		Double Letters & Given a string, print the string, doubling every letter character, and tripling every exclamation point. All other non-alphabetic and non-exclamation characters should be printed a single time each. & 100 \\
 		Scrabble Score & Given a string of visible ASCII characters, return the Scrabble score for that string. & 200 \\
 		Checksum & Given a string, compute the integer ASCII values of the characters in the string, sum them, take the sum modulo 64, add the integer value of the space character, and then convert that integer back into its corresponding character (the checksum character). Then print \texttt{Check sum is X}, where \texttt{X} is replaced by the correct checksum character. & 200 \\
-		Count Odds & Return the number of odd numbers in a vector of integers. & 200
+		Count Odds & Return the number of odd numbers in a vector of integers. & 200 \\
+		\hline
 	\end{tabular}
 \end{table}
 
@@ -149,11 +149,11 @@ Scrabble Score problem, Checksum problem, Count Odds problem}
 % Note: This data table has been verified by both Tools/mean_fitness_and_solution_counts.py and the CSVs we have in R.
 \begin{table}
 \centering
-	\caption{Number of successes (out of 100 runs) for each of the 8 test problems used here for each
-		tested selection mechanism. These numbers are similar but not identical to those reported in 
+	\caption{Number of successes (out of 100 runs) for each of the 8 test problems used here. These numbers are similar but not identical to those reported in 
 		\citep{Helmuth:2015:GECCO} because new runs were performed for this chapter.}
 	\label{tab:successCounts}
 	\begin{tabular}{lrrr}
+		\hline
 		Problem name \quad & Lexicase \quad & Tournament \quad & IFS \\
 		\hline
 		Replace Space With Newline & 57 & 13 & 17 \\ %Matches with simplified
@@ -164,6 +164,7 @@ Scrabble Score problem, Checksum problem, Count Odds problem}
 		Scrabble Score & 0 & 0 & 0 \\
 		Checksum & 0 & 0 & 0 \\
 		Count Odds & 4 & 0 & 0 \\
+		\hline
 	\end{tabular}
 \end{table}
 
@@ -203,11 +204,8 @@ It also starts with much higher counts on the Double Letters problem (Figure~\re
 but those numbers drop again quickly, matching the other two approaches by around generation 100. 
 On the Negative To Zero problem (Figure~\ref{negative-to-zeroClu}), the lexicase
 cluster counts remain small (about the same as for both tournament and IFS) throughout the runs.
-Particularly striking are lexicase cluster counts for String Lengths Backwards and Checksum, where the
-number of clusters with lexicase selection are actually lower earlier in the run. The number of clusters with
-Checksum remains low throughout (Figure~\ref{checksumClu}), while the number of String Lengths Backwards 
-clusters climbs to roughly the same values as tournament selection and IFS by around generation 150 
-(Figure~\ref{string-lengths-backwardsClu}).
+Particularly striking are lexicase cluster counts for String Lengths Backwards (Figure~\ref{string-lengths-backwardsClu}) and Checksum (Figure~\ref{checksumClu}), where the
+number of clusters with lexicase selection are actually lower earlier in the run.
 
 \begin{figure}[p] %[t] sets the image at the top of the page; t = top, b = bottom, h = here%
 %\sidecaption[t]
