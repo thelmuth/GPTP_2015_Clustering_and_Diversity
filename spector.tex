@@ -37,7 +37,7 @@ Lexicase selection, diversity, tournament selection, implicit fitness sharing.
 \section{Introduction} \label{intro}
 
 Lexicase selection is a recently developed parent selection method for  evolutionary computation in which individuals are selected by 
-filtering the population according to performance on individual fitness cases, considered in random order \citep{Spector:2012:GECCOcompA}. Lexicase 
+filtering the population according to performance on individual fitness cases, considered in random order \citep{Spector:2012:GECCOcompANEW}. Lexicase 
 selection, when used as the parent selection method in genetic programming, has been shown to provide 
 significant improvements in terms of problem-solving power \citep{Helmuth:2014:ieeeTEC, Helmuth:2015:GECCO}. 
 In this chapter we investigate the reasons for the success of lexicase selection, focusing in particular on the 
@@ -70,8 +70,7 @@ To evaluate a program in program synthesis, we run it on a set of test cases com
 
 One hypothesis we have put forth regarding the improved performance of lexicase selection is that it enables a population to develop groups of individuals that evolve side-by-side, implicitly maintaining the kind of niches that are maintained more explicitly by island models (and related methods) and specializing in solving specific parts of the problem. We expect that evolution may sometimes progress when individuals from different groups mate, producing a child that combines the abilities of its parents. The hope is that this process, iterated, will eventually produce an individual that solves the entire problem. Here we explore the effects of different parent selection methods on the development of clusters of individuals that perform similarly across the test cases. We expect that using lexicase selection will result in relatively larger numbers of clusters, since it selects individuals on the basis of specific cases and groups of cases, rather than on overall performance.
 
-To examine this idea, we must be able to measure the clustering of a population with respect to the training cases. We base the clustering of the population on the individuals' error vectors across the training cases. \cite{Krawiec:2015:EuroGP} use a similar approach, except that they cluster the test cases into some number of search objectives based on the individuals, whereas we cluster the individuals into groups based on the test cases.
-
+To examine this idea, we must be able to measure the clustering of a population with respect to the training cases. We base the clustering of the population on the individuals' error vectors across the training cases.
 Since we are primarily interested in whether an individual performs at least as well as every other 
 individual in the population, we convert the error vectors into binary ``elitized'' error vectors 
 that indicate whether an individual achieved the best error on each test case in that generation. 
@@ -169,7 +168,7 @@ Scrabble Score problem, Checksum problem, Count Odds problem}
 \end{table}
 
 We used the Clojush implementation\footnote{\url{https://github.com/lspector/Clojush}} 
-of the PushGP system \citep{spector:2002:GPEM, 1068292} for all runs. Each run used a population size of 1,000 
+of the PushGP system \citep{spector:2002:GPEMnoURL, 1068292noURL} for all runs. Each run used a population size of 1,000 
 individuals, and runs continued for either 300 generations or a until solution was found, whichever 
 came first. 
 
