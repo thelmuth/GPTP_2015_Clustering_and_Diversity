@@ -37,13 +37,13 @@ Lexicase selection, diversity, tournament selection, implicit fitness sharing.
 \section{Introduction} \label{intro}
 
 Lexicase selection is a recently developed selection method for  evolutionary computation in which individuals are selected by 
-filtering the population according to performance on individual fitness cases, considered in random order (\cite{Spector:2012:GECCOcompA}). Lexicase 
+filtering the population according to performance on individual fitness cases, considered in random order \citep{Spector:2012:GECCOcompA}. Lexicase 
 selection, when used as the parent selection method in genetic programming, has been shown to provide 
-significant improvements in terms of problem-solving power (\cite{Helmuth:2014:ieeeTEC,Helmuth:2015:GECCO}). 
+significant improvements in terms of problem-solving power \citep{Helmuth:2014:ieeeTEC, Helmuth:2015:GECCO}. 
 In this chapter we investigate the reasons for the success of lexicase selection, focusing in particular on the 
 ways in which lexicase selection seems to help maintain population diversity. We present data from eight 
 program synthesis problems and compare lexicase selection, in terms of problem solving power and diversity, 
-to tournament selection and selection based on implicit fitness sharing (IFS); IFS distributes reward among the individuals that solve a test case, giving more reward for cases solved by fewer (\cite{Mckay00fitnesssharing}; for more detail see \cite{Helmuth:2014:ieeeTEC}).
+to tournament selection and selection based on implicit fitness sharing (IFS). IFS distributes reward among the individuals that solve a test case, giving more reward for cases solved by fewer \citep{Mckay00fitnesssharing}; for more detail see \citep{Helmuth:2014:ieeeTEC}.
 
 For each parent selection event lexicase selection (Algorithm~\ref{alg:lexicase})
 randomly orders the test cases and then removes any individuals  
@@ -133,7 +133,7 @@ significantly different things in a given generation.
 \label{sec:experiment-results}
 
 We collected data
-from 100 runs each on 8 different problems described in \cite{Helmuth:2015:GECCO}. All of these are
+from 100 runs each on 8 different problems described by \cite{Helmuth:2015:GECCO}. All of these are
 basic programming problems taken from introductory programming texts; several are readily solved, while others
 remain unsolved using this study's tools. Table~\ref{tab:problems} lists
 the problems, a brief description, and the length of the error vectors\footnote{For some of these problems, each test case
@@ -148,7 +148,7 @@ provides over both tournament selection and IFS.
 
 \begin{table}
 \centering
-	\caption{Short descriptions of the 8 test problems used here, along with the number of errors in each error vector. See \cite{Helmuth:2015:GECCO} for more details on each problem.}
+	\caption{Short descriptions of the 8 test problems used here, along with the number of errors in each error vector. See \citep{Helmuth:2015:GECCO} for more details on each problem.}
 	\label{tab:problems}
 	\begin{tabular}{lp{7.0cm}r}
 		Problem name \quad & Description \quad & \# errors \\
@@ -172,7 +172,7 @@ Scrabble Score problem, Checksum problem, Count Odds problem}
 \centering
 	\caption{Number of successes (out of 100 runs) for each of the 8 test problems used here for each
 		tested selection mechanism. These numbers are similar but not identical to those reported in 
-		\cite{Helmuth:2015:GECCO} because new runs were performed for this chapter.}
+		\citep{Helmuth:2015:GECCO} because new runs were performed for this chapter.}
 	\label{tab:successCounts}
 	\begin{tabular}{lrrr}
 		Problem name \quad & Lexicase \quad & Tournament \quad & IFS \\
@@ -362,7 +362,7 @@ clusters climbs to roughly the same values as tournament selection and IFS by ar
 \section{Discussion}
 \label{sec:discussion}
 
-As in \cite{Helmuth:2015:GECCO}, lexicase selection produced more successes than 
+As in \citep{Helmuth:2015:GECCO}, lexicase selection produced more successes than 
 either tournament selection or IFS on any problem in which a solution was found. 
 The error diversity for the lexicase runs was much higher than for tournament
  and IFS for most problems, which is consistent with the hypothesis that
@@ -416,7 +416,7 @@ On the other hand, lexicase selection consistently maintained higher diversity t
 
 \section{Conclusions}
 
-In this chapter we used two different measures of diversity (error diversity and cluster counts) to try to better understand the impact of lexicase selection, and why it seems to consistently outperform tournament selection and implicit fitness sharing (IFS) on a range of software synthesis problems \cite{Helmuth:2015:GECCO}. The error diversity was generally \emph{much} higher for lexicase selection than for either tournament selection or IFS, with lexicase selection maintaining a broad range of distinct behaviors. Cluster counts were typically higher with lexicase selection, and the instances in which they weren't may say more about the problem or test case structure than about the selection mechanism. This suggests that error diversity is indeed a valuable metric for studying the impact of system design decisions. The value of cluster counts is less clear, but it seems likely that understanding why the cluster counts were so low on certain problems could be informative.
+In this chapter we used two different measures of diversity (error diversity and cluster counts) to try to better understand the impact of lexicase selection, and why it seems to consistently outperform tournament selection and implicit fitness sharing (IFS) on a range of software synthesis problems \citep{Helmuth:2015:GECCO}. The error diversity was generally \emph{much} higher for lexicase selection than for either tournament selection or IFS, with lexicase selection maintaining a broad range of distinct behaviors. Cluster counts were typically higher with lexicase selection, and the instances in which they weren't may say more about the problem or test case structure than about the selection mechanism. This suggests that error diversity is indeed a valuable metric for studying the impact of system design decisions. The value of cluster counts is less clear, but it seems likely that understanding why the cluster counts were so low on certain problems could be informative.
 
 Given that the lexicase selection runs maintain error diversity all across the 300 generations, it seems plausible that extending the length of the runs would generate additional solutions. It would be illuminating to extend these runs to 500 or 1,000 generations and see whether lexicase selection is able to make ``better'' use of those additional computational resources.
 
