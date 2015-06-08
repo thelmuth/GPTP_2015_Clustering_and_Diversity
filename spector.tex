@@ -349,27 +349,25 @@ different test cases; it could just be that many had different incorrect
 answers and error values. From a search perspective, though, this still seems useful, as those different
 error values may represent different starting points for subsequent search.
 
-As mentioned in Section~\ref{sec:experiment-results}, for four of the eight problems, the cluster counts were
+For four of the eight problems, the cluster counts were
 also much higher for lexicase than for the other two selection mechanisms. For some of these problems
 (e.g., Count Odds) there are over 100 clusters, and for Syllables the median cluster count is over 400
-from generation 100 forward. This means that there are hundreds of groups of individuals in these runs
-that differ from one another, in terms of eliteness, on at least 10\%
-of the test cases. For Count Odds, with 200 test cases, there are consistently over
-100 clusters, where each pair of clusters has different elitized values for at least 20 test cases.
+from generation 100 forward.
+%This means that there are hundreds of groups of individuals in these runs that differ from one another, in terms of eliteness, on at least 10\% of the test cases.
+%For Count Odds, with 200 test cases, there are consistently over 100 clusters, where each pair of clusters has different elitized values for at least 20 test cases.
 This suggests that lexicase selection is maintaining large numbers of sub-groups of the population that are 
-capable of solving different parts of the problem. If solutions aren't being discovered then 
-that might indicate that the genetic operators aren't able to act on the structure 
+capable of solving different parts of the problem. 
+For problems with no solutions found, this might indicate that the genetic operators are not able to act on the structure 
 of the programs in those sub-populations in ways that allow progress.
 
 Interpretation of the cluster count results on the other four problems is more difficult. Analysis
 of the lexicase Checksum runs suggests that the lack of clustering might be a function
 of structural issues with the test cases; 
-there are 100 test cases, with two error functions per test case:  the Levenshtein edit distance on the printed string, and the difference between the last character of the printed string and the correct checksum character.
+there are 100 test cases, with two error functions per test case:  the Levenshtein edit distance on the printed string, and the integer difference between the ASCII values of the last character of the printed string and the correct checksum character.
 It appears that populations quickly evolve the ability to print \texttt{Check sum is}, but
-then stall, with each program essentially producing a different set of random answers to the question
-of what the checksum actually is. This allows for fairly high error diversity (over 0.75), but any given program tends to  get at most two or three test 
-cases right by guessing. This means that the manhattan distance between any two elitized error vectors
-is typically only 5 or 6 at most, shy of the 10\% threshold of 20 for this problem. Hence there are typically only one or two clusters. 
+then stall, with each program printing different final characters. This allows for fairly high error diversity (over 0.75), but any given program tends to  get at most two or three test 
+cases right by guessing. This means that the Manhattan distance between any two elitized error vectors
+is typically only 5 or 6 at most, shy of the 10\% threshold of 20 for this problem, resulting in only one or two clusters.
 A new set of test cases, possibly containing more cases that require only the basic checksum calculation
 on a single character, might allow evolution to first stumble upon and then exploit code that produces actual checksums.
 
@@ -377,7 +375,7 @@ On problems for which solutions were discovered, lexicase selection runs found s
 high number of clusters, gives one hope that meaningful search can still occur late in a lexicase selection run. The plots of successes over time under the primary plots
 typically appear to have positive slope even at generation 300, so it would be interesting to
 extend these runs to 500 or 1,000 generations and see how many additional solutions are discovered.
-If lexicase selection is indeed maintaining a meaningful pool of diversity then we would expect to see continued discovery of solutions, at a higher rate than for either tournament selection or IFS. This might be
+If lexicase selection is indeed maintaining meaningful diversity then we would expect to see continued discovery of solutions, at a higher rate than for either tournament selection or IFS. This might be
 particularly interesting for problems for which solution discovery is rare but possible, such as
 Double Letters and Count Odds, which are solved using lexicase selection 5 and 3 times respectively, but not
 at all using tournament selection or IFS. Solutions for these two problems tended to be discovered
@@ -386,7 +384,7 @@ runs on those problems go longer might be revealing.
 
 On the set of problems explored here, error diversity seems to be a better predictor of performance than cluster counts. In fact, on two of the problems for which  solutions were found in over half the runs (String Lengths Backwards and Negative To Zero), lexicase selection maintained very small numbers of clusters, similar to tournament and IFS. 
 %THIS NEXT SENTENCE IS CONFUSING BECAUSE IT FOUND FEWER SOLUTIONS THAN *IT* FOUND ON OTHER PROBLEMS, BUT NOT THAN OTHER METHODS FOUND ON THIS PROBLEM (WHICH FOUND NONE). RATHER THAN SPELL THIS OUT I THINK THIS SHOULD JUST BE DROPPED: On problems for which lexicase displayed many more clusters than the other methods (Syllables, Scrabble Score, and Count Odds), it found many fewer solutions. 
-On the other hand, lexicase selection consistently maintained higher diversity than other methods, and found more solutions on every problem that was solved. This may indicate that the ability to form clusters on a problem is more indicative of the problem itself than the parent selection method and its ability to solve the problem. This provides evidence against our hypothesis that lexicase performs better because it maintains clusters of individuals that genetic operators combine to solve increasingly large numbers of test cases.
+On the other hand, lexicase selection consistently maintained higher error diversity than other methods, and found more solutions on every problem that was solved. This may indicate that the ability to form clusters on a problem is more indicative of the problem itself than the parent selection method and its ability to solve the problem. This provides evidence against our hypothesis that lexicase performs better because it maintains clusters of individuals that genetic operators can combine to solve increasingly large numbers of test cases.
 
 %(TO DO: Nic: Tournament and IFS seem to be super similar. What, if anything, do we say about that?) (Tom: Firstly, this isn't too surprising when you consider that IFS is using tournaments. Thus, it is like it rearranges the rankings of the individuals, but then uses similar selection probabilities. It might be difficult to achieve more diversity with this selection probability mass function. The other thing to remark upon is that while IFS was devised as a diversity increaser, it doesn't seem to work that way in this setting. This indicates that it hasn't been sufficiently tested for diversity maintenance, at least for this type of problem. In places where it does increase performance, maybe it isn't because of diversity? Anyway, I'm not sure if we know what exactly to say here or if we'll have the room.)
 
