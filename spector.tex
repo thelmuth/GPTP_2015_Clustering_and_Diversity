@@ -210,7 +210,7 @@ number of clusters with lexicase selection are actually lower earlier in the run
 %\sidecaption[t]
 \centering
 \includegraphics[width=11.5cm]{replace-space-with-newline-diversity.pdf}
-\caption{Replace Space With Newline -- error diversity}
+\caption{Replace Space With Newline -- error diversity.}
 \label{rswnDiv}
 \end{figure}
 
@@ -218,7 +218,7 @@ number of clusters with lexicase selection are actually lower earlier in the run
 %\sidecaption[t]
 \centering
 \includegraphics[width=11.5cm]{replace-space-with-newline-cluster.pdf}
-\caption{Replace Space With Newline -- cluster counts}
+\caption{Replace Space With Newline -- cluster counts.}
 \label{rswnClu}
 \end{figure}
 
@@ -226,7 +226,7 @@ number of clusters with lexicase selection are actually lower earlier in the run
 %\sidecaption[t]
 \centering
 \includegraphics[width=11.5cm]{syllables-diversity.pdf}
-\caption{Syllables -- error diversity}
+\caption{Syllables -- error diversity.}
 \label{syllablesDiv}
 \end{figure}
 
@@ -234,7 +234,7 @@ number of clusters with lexicase selection are actually lower earlier in the run
 %\sidecaption[t]
 \centering
 \includegraphics[width=11.5cm]{syllables-cluster.pdf}
-\caption{Syllables -- cluster counts}
+\caption{Syllables -- cluster counts.}
 \label{syllablesClu}
 \end{figure}
 
@@ -242,7 +242,7 @@ number of clusters with lexicase selection are actually lower earlier in the run
 %\sidecaption[t]
 \centering
 \includegraphics[width=11.5cm]{string-lengths-backwards-diversity.pdf}
-\caption{String Lengths Backwards -- error diversity}
+\caption{String Lengths Backwards -- error diversity.}
 \label{string-lengths-backwardsDiv}
 \end{figure}
 
@@ -250,7 +250,7 @@ number of clusters with lexicase selection are actually lower earlier in the run
 %\sidecaption[t]
 \centering
 \includegraphics[width=11.5cm]{string-lengths-backwards-cluster.pdf}
-\caption{String Lengths Backwards -- cluster counts}
+\caption{String Lengths Backwards -- cluster counts.}
 \label{string-lengths-backwardsClu}
 \end{figure}
 
@@ -258,7 +258,7 @@ number of clusters with lexicase selection are actually lower earlier in the run
 %\sidecaption[t]
 \centering
 \includegraphics[width=11.5cm]{negative-to-zero-diversity.pdf}
-\caption{Negative To Zero -- error diversity}
+\caption{Negative To Zero -- error diversity.}
 \label{negative-to-zeroDiv}
 \end{figure}
 
@@ -266,7 +266,7 @@ number of clusters with lexicase selection are actually lower earlier in the run
 %\sidecaption[t]
 \centering
 \includegraphics[width=11.5cm]{negative-to-zero-cluster.pdf}
-\caption{Negative To Zero -- cluster counts}
+\caption{Negative To Zero -- cluster counts.}
 \label{negative-to-zeroClu}
 \end{figure}
 
@@ -274,7 +274,7 @@ number of clusters with lexicase selection are actually lower earlier in the run
 %\sidecaption[t]
 \centering
 \includegraphics[width=11.5cm]{double-letters-diversity.pdf}
-\caption{Double Letters -- error diversity}
+\caption{Double Letters -- error diversity.}
 \label{double-lettersDiv}
 \end{figure}
 
@@ -282,7 +282,7 @@ number of clusters with lexicase selection are actually lower earlier in the run
 %\sidecaption[t]
 \centering
 \includegraphics[width=11.5cm]{double-letters-cluster.pdf}
-\caption{Double Letters -- cluster counts}
+\caption{Double Letters -- cluster counts.}
 \label{double-lettersClu}
 \end{figure}
 
@@ -290,7 +290,7 @@ number of clusters with lexicase selection are actually lower earlier in the run
 %\sidecaption[t]
 \centering
 \includegraphics[width=11.5cm]{scrabble-score-diversity.pdf}
-\caption{Scrabble Score -- error diversity}
+\caption{Scrabble Score -- error diversity.}
 \label{scrabble-scoreDiv}
 \end{figure}
 
@@ -298,7 +298,7 @@ number of clusters with lexicase selection are actually lower earlier in the run
 %\sidecaption[t]
 \centering
 \includegraphics[width=11.5cm]{scrabble-score-cluster.pdf}
-\caption{Scrabble Score -- cluster counts}
+\caption{Scrabble Score -- cluster counts.}
 \label{scrabble-scoreClu}
 \end{figure}
 
@@ -306,7 +306,7 @@ number of clusters with lexicase selection are actually lower earlier in the run
 %\sidecaption[t]
 \centering
 \includegraphics[width=11.5cm]{checksum-diversity.pdf}
-\caption{Checksum -- error diversity}
+\caption{Checksum -- error diversity.}
 \label{checksumDiv}
 \end{figure}
 
@@ -314,7 +314,7 @@ number of clusters with lexicase selection are actually lower earlier in the run
 %\sidecaption[t]
 \centering
 \includegraphics[width=11.5cm]{checksum-cluster.pdf}
-\caption{Checksum -- cluster counts}
+\caption{Checksum -- cluster counts.}
 \label{checksumClu}
 \end{figure}
 
@@ -322,7 +322,7 @@ number of clusters with lexicase selection are actually lower earlier in the run
 %\sidecaption[t]
 \centering
 \includegraphics[width=11.5cm]{count-odds-diversity.pdf}
-\caption{Count Odds -- error diversity}
+\caption{Count Odds -- error diversity.}
 \label{count-oddsDiv}
 \end{figure}
 
@@ -330,7 +330,7 @@ number of clusters with lexicase selection are actually lower earlier in the run
 %\sidecaption[t]
 \centering
 \includegraphics[width=11.5cm]{count-odds-cluster.pdf}
-\caption{Count Odds -- cluster counts}
+\caption{Count Odds -- cluster counts.}
 \label{count-oddsClu}
 \end{figure}
 
@@ -368,8 +368,7 @@ It appears that populations quickly evolve the ability to print \texttt{Check su
 then stall, with each program printing different final characters. This allows for fairly high error diversity (over 0.75), but any given program tends to  get at most two or three test 
 cases right by guessing. This means that the Manhattan distance between any two elitized error vectors
 is typically only 5 or 6 at most, shy of the 10\% threshold of 20 for this problem, resulting in only one or two clusters.
-A new set of test cases, possibly containing more cases that require only the basic checksum calculation
-on a single character, might allow evolution to first stumble upon and then exploit code that produces actual checksums.
+Additional test cases exploring different inputs might allow evolution to first stumble upon and then exploit code that produces actual checksums.
 
 On problems for which solutions were discovered, lexicase selection runs found solutions throughout the 300 generations. This, combined with the high levels of error diversity and the often 
 high number of clusters, gives one hope that meaningful search can still occur late in a lexicase selection run. The plots of successes over time under the primary plots
@@ -394,7 +393,7 @@ In this chapter we used two different measures of diversity (error diversity and
 
 Given that the lexicase selection runs maintain error diversity all across the 300 generations, it seems plausible that extending the length of the runs would generate additional solutions. It would be illuminating to extend these runs to 500 or 1,000 generations and see whether lexicase selection is able to make ``better'' use of those additional computational resources.
 
-While the focus of this chapter was to better understand the behavior of lexicase selection, the results also show that tournament selection and IFS behave \emph{very} similarly with respect to the diversity measures used here. This is unfortunate because IFS was specifically designed to maintain diversity. It is not clear why the IFS diversity figures weren't higher, but both tournament selection and IFS aggregate test case errors into a single value, with IFS just weighting the components differently. 
+While the focus of this chapter was to better understand the behavior of lexicase selection, the results also show that tournament selection and IFS behave \emph{very} similarly with respect to the diversity measures used here. This is unfortunate because IFS was specifically designed to maintain diversity. Both tournament selection and IFS aggregate test case errors into a single value, with IFS just weighting the components differently; this may be partially responsible for the similar rates in diversity. 
 
 \begin{acknowledgement}
 	Thanks to the members of the Hampshire College Computational Intelligence Lab for discussions that helped to improve the work described in this chapter, to Josiah Erikson for systems support, and to Hampshire College for support for the Hampshire College Institute for Computational Intelligence. This material is based upon work supported by the National Science Foundation under Grants No. 1017817, 1129139, and 1331283. Any opinions, findings, and conclusions or recommendations expressed in this publication are those of the authors and do not necessarily reflect the views of the National Science Foundation.
