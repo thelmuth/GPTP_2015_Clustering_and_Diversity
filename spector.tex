@@ -27,7 +27,7 @@
 
 \maketitle
 
-\abstract{Lexicase selection is a selection method for  evolutionary computation in which individuals are selected by filtering the population according to performance on test cases, considered in random order. When used as the parent selection method in genetic programming, lexicase selection has been shown to provide significant improvements in problem-solving power. In this chapter we investigate the reasons for the success of lexicase selection, focusing on measures of population diversity. We present data from eight program synthesis problems and compare lexicase selection to tournament selection and selection based on implicit fitness sharing. We conclude that lexicase selection does indeed produce more diverse populations, and that this helps to explain the utility of lexicase selection for program synthesis.}
+\abstract{Lexicase selection is a parent selection method for  evolutionary computation in which individuals are selected by filtering the population according to performance on test cases, considered in random order. When used as the parent selection method in genetic programming, lexicase selection has been shown to provide significant improvements in problem-solving power. In this chapter we investigate the reasons for the success of lexicase selection, focusing on measures of population diversity. We present data from eight program synthesis problems and compare lexicase selection to tournament selection and selection based on implicit fitness sharing. We conclude that lexicase selection does indeed produce more diverse populations, which helps to explain the utility of lexicase selection for program synthesis.}
 
 \begin{keywords}
 Lexicase selection, diversity, tournament selection, implicit fitness sharing.
@@ -36,58 +36,37 @@ Lexicase selection, diversity, tournament selection, implicit fitness sharing.
 
 \section{Introduction} \label{intro}
 
-Lexicase selection is a recently developed selection method for  evolutionary computation in which individuals are selected by 
+Lexicase selection is a recently developed parent selection method for  evolutionary computation in which individuals are selected by 
 filtering the population according to performance on individual fitness cases, considered in random order \citep{Spector:2012:GECCOcompA}. Lexicase 
 selection, when used as the parent selection method in genetic programming, has been shown to provide 
 significant improvements in terms of problem-solving power \citep{Helmuth:2014:ieeeTEC, Helmuth:2015:GECCO}. 
 In this chapter we investigate the reasons for the success of lexicase selection, focusing in particular on the 
 ways in which lexicase selection seems to help maintain population diversity. We present data from eight 
 program synthesis problems and compare lexicase selection, in terms of problem solving power and diversity, 
-to tournament selection and selection based on implicit fitness sharing (IFS). IFS distributes reward among the individuals that solve a test case, giving more reward for cases solved by fewer \citep{Mckay00fitnesssharing}; for more detail see \citep{Helmuth:2014:ieeeTEC}.
+to tournament selection and selection based on implicit fitness sharing (IFS). IFS distributes reward among the individuals that solve a test case, giving more reward for cases solved by fewer individuals \citep{Mckay00fitnesssharing}; for more detail see \citep{Helmuth:2014:ieeeTEC}.
 
-For each parent selection event lexicase selection (Algorithm~\ref{alg:lexicase})
-randomly orders the test cases and then removes any individuals  
+For each parent selection event lexicase selection randomly orders the test cases and then removes any individuals  
 that do not have the best performance on the first case. 
 If more than one individual remains then those that do not have the best performance on the second case are also removed. This 
  continues until only one individual remains and is selected, or until all cases 
-have been used, in which case a random one one of the remaining individuals is selected.
-Key properties of lexicase selection are that (a) it avoids combining all  errors into a single
+have been used, in which case one of the remaining individuals is selected randomly.
+Key properties of lexicase selection are that (a) it avoids combining all  errors into a single scalar fitness
  value, (b) because of the random ordering of test cases, every test case will be
 most important (first to be considered) at least occasionally, and (c) similarly, each pair of test cases, and each triple, etc., will be most important at least occasionally. 
-
-\begin{algorithm}[tb]
-	\begin{algorithmic}
-		\STATE \texttt{candidates} $:=$ the entire population
-		\STATE \texttt{cases} $:=$ list of all the test cases in a random order
-		\WHILE{$|\texttt{candidates}|>1$ \AND $|\texttt{cases}|>0$}
-			\STATE \texttt{current}, \texttt{cases} := $\textrm{first}(\texttt{cases})$, $\textrm{rest}(\texttt{cases})$
-			\STATE \texttt{best\_performance} $:= \min \{ \textrm{perf}(i, \texttt{current}) \;|\; i \in \texttt{candidates} \}$
-			\STATE \texttt{candidates} := $\{ i \;|\; i \in \texttt{candidates} \;\land\; \textrm{perf}(i, \texttt{current}) = \texttt{best\_performance}\}$
-		\ENDWHILE
-		\RETURN random individual from \texttt{candidates}
-	\end{algorithmic}
-	\caption{Psuedocode for the lexicase selection algorithm, for the context in which the goal for all test cases is to minimize error.}
-	\label{alg:lexicase}
-\end{algorithm}
-
 
 
 We investigate the relations between selection methods and population diversity using two measures of  diversity: 
 error diversity and cluster counts. We find that lexicase selection runs have consistently 
 higher error diversity than tournament selection and IFS across all generations and all problems. The cluster 
-counts for lexicase selection are also generally higher, but less consistently. We conclude that lexicase selection does indeed produce more diverse populations, and that this helps to explain 
+counts for lexicase selection are also generally higher, but less consistently. We conclude that lexicase selection does indeed produce more diverse populations, and which helps to explain 
 the utility of lexicase selection for program synthesis.
 
 \section{Diversity Measures}
 
 \index{diversity}
 
-When a program is evaluated, it is tested on a set of test cases composed of input/output pairs. Then, one or more error functions are applied to the desired output and the program's output, creating an error vector for each individual. We define \textit{error diversity} to be the percentage of distinct error vectors in the population. 
-
-Error diversity is similar to \textit{behavioral diversity}, which is the percentage of distinct behavior vectors in the population \citep{Jackson:2010:PPSN}. Here, the behavior of a program is the vector of outputs a program produces when run on the vector of inputs. Error diversity for a population will be less than or equal to its behavioral diversity, since two different behavior vectors may produce the same error vector, but two different error vectors must come from different behavior vectors.
-\cite{Helmuth:2014:ieeeTEC} showed that in sets of runs in which lexicase selection achieved higher success rates, 
-it also maintained higher error diversity. Here, we  explore whether similar 
-effects are seen in error diversity across other problems.
+To evaluate a program in program synthesis, we run it on a set of test cases composed of input/output pairs, creating a behavior vector of its outputs. Then, we apply one or more error functions to each desired output and the program's output, creating an error vector for each individual. We define \textit{error diversity} to be the percentage of distinct error vectors in the population. Error diversity is similar to \textit{behavioral diversity}, which is the percentage of distinct behavior vectors in the population \citep{Jackson:2010:PPSN}. The error diversity of a population will be less than or equal to its behavioral diversity, since two different behavior vectors may produce the same error vector, but two different error vectors must come from different behavior vectors.
+\cite{Helmuth:2014:ieeeTEC} showed that lexicase selection maintained higher diversity than tournament and IFS selections on three problems.
 
 One hypothesis regarding the improved performance of lexicase selection is that it enables a population to develop groups of individuals that evolve side-by-side, implicitly maintaining the kind of niches that are maintained more explicitly by island models and related methods. These groups would specialize in solving specific parts of the problem. We expect that evolution may sometimes progress when individuals from different groups mate, producing a child that combines the abilities of its parents. The hope is that this process, iterated, will eventually produce an individual that solves the entire problem. With this scenario in mind, we explore the effects of different parent selection methods on the development of clusters of individuals that perform similarly across the test cases. We expect that using lexicase selection will result in relatively larger numbers of clusters, since it selects individuals on the basis of specific cases and groups of cases, rather than on overall performance.
 
